@@ -24,6 +24,3 @@ Make sure you have `sudo` privileges and (optionally) Snap or Flatpak installed 
 
 chmod +x update.sh
 sudo ./update.sh
-Open your terminal and create a new file named `update.sh`:
-```bash
-nano update.sh
