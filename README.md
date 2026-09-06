@@ -22,5 +22,4 @@ Make sure you have `sudo` privileges and (optionally) Snap or Flatpak installed 
 
 ## 📥 Setup
 
-chmod +x update.sh
-sudo ./update.sh
+chmod +x update.sh && sudo ./update.sh
