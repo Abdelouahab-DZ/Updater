@@ -21,5 +21,8 @@ Make sure you have `sudo` privileges and (optionally) Snap or Flatpak installed 
 ---
 
 ## 📥 Setup
-
+git clone https://github.com/Abdelouahab-DZ/Updater
+###
+cd Updater
+###
 chmod +x update.sh && sudo ./update.sh
