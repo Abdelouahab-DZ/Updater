@@ -1,28 +1,63 @@
-#  Debian/Ubuntu Ultimate Update Script 🚀
+# Ubuntu System Update GUI
 
-A comprehensive, automated bash script designed to keep your Ubuntu system fully up-to-date. It handles native `apt` system packages, `snap` packages, and `flatpak` packages in one smooth run, complete with a clean, color-coded terminal UI and a pause prompt so the window doesn't close automatically.
+A graphical updater for Ubuntu systems built with Python and Tkinter. It automates the most common update tasks in one simple interface and shows progress as each step runs.
 
----
+This project includes a GUI version of the standard system update workflow for:
 
-## ✨ Features
+- APT package updates
+- Full system upgrades
+- Dependency cleanup
+- APT cache cleanup
+- Snap refreshes
+- Flatpak updates
 
-- **All-in-One Updates:** Automatically refreshes and upgrades APT packages, Snap packages, and Flatpak apps.
-- **System Cleanup:** Removes orphaned dependencies (`autoremove`) and clears local package caches (`clean`) to free up disk space.
-- **Smart Detection:** Gracefully checks if Snap and Flatpak are installed on your system before attempting to update them.
-- **Terminal UI Polish:** Features bold, color-coded headers and step indicators for clear visual feedback.
-- **Interactive Exit:** Pauses at the end so you can review the update logs before closing the terminal window.
+## Features
 
----
+- Simple desktop interface with a Run Update button
+- Progress tracking by stage
+- Live log output in a scrollable panel
+- Graphical sudo password prompt via `zenity` when available
+- Automatic skip for missing Snap or Flatpak tools
 
-## 🛠️ Prerequisites
+## Requirements
 
-Make sure you have `sudo` privileges and (optionally) Snap or Flatpak installed if you plan on updating those ecosystems.
+- Python 3
+- Tkinter (`python3-tk`)
+- `zenity` (recommended for graphical sudo prompts)
+- `sudo` access enabled for your user
 
----
+Install the packages on Ubuntu or Debian:
 
-## 📥 Setup
-git clone https://github.com/Abdelouahab-DZ/Updater
-###
-cd Updater
-###
-chmod +x update.sh && sudo ./update.sh
+```bash
+sudo apt update
+sudo apt install python3-tk zenity
+```
+
+## Run
+
+```bash
+python3 ubuntu_update_gui.py
+```
+
+## What the script does
+
+The GUI runs the following commands in sequence:
+
+```bash
+sudo -A apt update
+sudo -A apt full-upgrade -y
+sudo -A apt autoremove -y
+sudo -A apt clean
+command -v snap >/dev/null && sudo -A snap refresh || echo 'snap not installed, skipping'
+command -v flatpak >/dev/null && flatpak update -y || echo 'flatpak not installed, skipping'
+```
+
+## Notes
+
+- If `zenity` is not installed, the script will still work, but the sudo password prompt may appear in the terminal instead of a graphical dialog.
+- The script is designed for Ubuntu-based systems.
+- Use with care on production or critical systems; upgrades can affect package versions and installed software.
+
+## License
+
+This project is provided as-is for personal or system maintenance use.
