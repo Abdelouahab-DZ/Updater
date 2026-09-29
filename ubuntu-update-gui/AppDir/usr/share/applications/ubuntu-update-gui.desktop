@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Ubuntu Update GUI
+Comment=Update APT, Snap, and Flatpak packages with a graphical progress window
+Exec=ubuntu-update-gui
+Icon=ubuntu-update-gui
+Terminal=false
+Categories=System;Settings;

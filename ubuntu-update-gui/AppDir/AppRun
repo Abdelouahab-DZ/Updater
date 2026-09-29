@@ -1,0 +1,35 @@
+#!/bin/bash
+# AppRun launcher for Ubuntu Update GUI.
+#
+# This AppImage packages the app's own code, but deliberately relies on the
+# HOST system's Python, GTK 3, and PyGObject rather than bundling them.
+# Bundling GTK/GObject-introspection typelibs inside an AppImage is fragile
+# (version/ABI mismatches with the host's display stack), so the safer and
+# far more common approach for GTK apps is to package the app only and use
+# what's already on the system -- which, on Ubuntu, is virtually always
+# already installed as part of the desktop.
+
+set -e
+
+HERE="$(dirname "$(readlink -f "${0}")")"
+APP="$HERE/usr/bin/ubuntu-update-gui"
+
+if ! command -v python3 >/dev/null 2>&1; then
+    echo "python3 was not found on this system." >&2
+    exit 1
+fi
+
+if ! python3 -c "import gi; gi.require_version('Gtk', '3.0'); from gi.repository import Gtk" >/dev/null 2>&1; then
+    MSG="Ubuntu Update GUI needs GTK 3 + PyGObject, which are missing.
+
+Install them with:
+    sudo apt install python3-gi gir1.2-gtk-3.0"
+    if command -v zenity >/dev/null 2>&1; then
+        zenity --error --title="Missing dependencies" --text="$MSG"
+    else
+        echo "$MSG" >&2
+    fi
+    exit 1
+fi
+
+exec python3 "$APP" "$@"
